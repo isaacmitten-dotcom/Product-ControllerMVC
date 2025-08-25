@@ -1,7 +1,7 @@
 ## Product Controller
 
 
-An ASP.NET Core MVC web application for managing a products. Users can view, create, edit, and delete products. Built with Entity Framework Core and SQL Server.
+An ASP.NET Core MVC web application for managing products. Users can view, create, edit, and delete products.
 
 ## Features
 
