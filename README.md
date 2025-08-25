@@ -27,6 +27,15 @@ This project relies on the following libraries and frameworks:
 
 # How to run
 
+- Make sure you have all the dependices installed.
 
 
-Make sure you have all the dependices installed
+- Clone the repo https://github.com/isaacmitten-dotcom/Product-ControllerMVC.git
+into Visual Studio
+
+- Build the program
+
+
+
+
+
