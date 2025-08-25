@@ -1,10 +1,9 @@
-# Product Controller
+## Product Controller
 
 
 An ASP.NET Core MVC web application for managing a products. Users can view, create, edit, and delete products. Built with Entity Framework Core and SQL Server.
 
-# Features
-View a list of movies with filtering by genre and search by title Create, edit, and delete movie entries Genre dropdown populated dynamically from the database
+## Features
 
 # View
 <img width="1665" height="877" alt="image" src="https://github.com/user-attachments/assets/93d710d7-3d23-464a-94c7-580b2826dc80" />
@@ -16,7 +15,7 @@ View a list of movies with filtering by genre and search by title Create, edit, 
 <img width="659" height="448" alt="image" src="https://github.com/user-attachments/assets/91d4f7d4-b875-4324-94f8-05ea04228bef" />
 
 
-# Dependencies
+## Dependencies
 
 This project relies on the following libraries and frameworks:
 
@@ -25,7 +24,7 @@ This project relies on the following libraries and frameworks:
 -Entity Framework Core – For database access.
 -Microsoft SQL Server – Backend database.
 
-# How to run
+## How to run
 
 - Make sure you have all the dependices installed.
 
