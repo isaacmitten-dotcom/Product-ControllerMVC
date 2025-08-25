@@ -19,10 +19,10 @@ An ASP.NET Core MVC web application for managing products. Users can view, creat
 
 This project relies on the following libraries and frameworks:
 
--.NET 6.0 SDK – Required to build and run the application.
--ASP.NET Core MVC – For building web interfaces and handling routing.
--Entity Framework Core – For database access.
--Microsoft SQL Server – Backend database.
+- .NET 6.0 SDK – Required to build and run the application.
+- ASP.NET Core MVC – For building web interfaces and handling routing.
+- Entity Framework Core – For database access.
+- Microsoft SQL Server – Backend database.
 
 ## How to run
 
