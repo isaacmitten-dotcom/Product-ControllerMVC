@@ -23,13 +23,37 @@ namespace Product_Controller.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            
-            return View(await _context.Product.ToListAsync());
+            if (_context.Product == null)
+            {
+                _logger.LogError(new NullReferenceException(), "Movie context is null");
+                return Problem("Entity set 'MvcMovieContext.Movie' is null.");
+            }
+
+            var prod = from m in _context.Product
+                         select m;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                _logger.LogWarning("Search string provided: {SearchString}", searchString);
+                prod = prod.Where(s => s.Name!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            var ProductSearchVM = new ProductSearchViewModel
+            {
+                Products = await prod.ToListAsync()
+            };
+
+            return View(ProductSearchVM);
         }
 
-        // GET: Products/Details/5
+
+
+
+
+
+                // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
