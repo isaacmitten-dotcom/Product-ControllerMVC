@@ -27,8 +27,8 @@ namespace Product_Controller.Controllers
         {
             if (_context.Product == null)
             {
-                _logger.LogError(new NullReferenceException(), "Movie context is null");
-                return Problem("Entity set 'MvcMovieContext.Movie' is null.");
+                _logger.LogError(new NullReferenceException(), "Product context is null");
+                return Problem("Entity set 'MvcMovieContext.Products' is null.");
             }
 
             var prod = from m in _context.Product
