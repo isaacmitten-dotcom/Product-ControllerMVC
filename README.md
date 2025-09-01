@@ -1,9 +1,9 @@
-## Product Controller
+# Product Controller
 
 
 An ASP.NET Core MVC web application for managing products. Users can view, create, edit, and delete products.
 
-## Features
+# Features
 
 # View
 <img width="1665" height="877" alt="image" src="https://github.com/user-attachments/assets/93d710d7-3d23-464a-94c7-580b2826dc80" />
@@ -15,7 +15,7 @@ An ASP.NET Core MVC web application for managing products. Users can view, creat
 <img width="659" height="448" alt="image" src="https://github.com/user-attachments/assets/91d4f7d4-b875-4324-94f8-05ea04228bef" />
 
 
-## Dependencies
+# Dependencies
 
 This project relies on the following libraries and frameworks:
 
@@ -24,7 +24,7 @@ This project relies on the following libraries and frameworks:
 - Entity Framework Core – For database access.
 - Microsoft SQL Server – Backend database.
 
-## How to run
+# How to run
 
 - Make sure you have all the dependices installed.
 
@@ -34,6 +34,9 @@ into Visual Studio
 
 - Build the program
 
+# Separation of Concerns and DI Choices
+
+I chose to separate the CRUD logic out from the controllers and into the ProductService. This is to better facilitate separation of concerns, as it allows the controller to only handle HTTP requests. This makes the code more maintainable.
 
 
 
