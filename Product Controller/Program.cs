@@ -1,12 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Product_Controller.Data;
+using Product_Controller.Services;
+
+
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<Product_ControllerContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Product_ControllerContext") ?? throw new InvalidOperationException("Connection string 'Product_ControllerContext' not found.")));
+
+builder.Services.AddDbContext<Product_ControllerContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Product_ControllerContext") ?? throw new InvalidOperationException("Connection string 'Product_ControllerContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
