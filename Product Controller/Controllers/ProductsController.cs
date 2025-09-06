@@ -1,75 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Product_Controller.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using Product_Controller.Models;
 using Microsoft.Extensions.Logging;
+using Product_Controller.Services;
 
 namespace Product_Controller.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly Product_ControllerContext _context;
+        private readonly IProductService _products;
         private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(Product_ControllerContext context, ILogger<ProductsController> logger)
+        public ProductsController(IProductService products, ILogger<ProductsController> logger)
         {
-            _context = context;
+            _products = products;
             _logger = logger;
         }
 
         // GET: Products
         public async Task<IActionResult> Index(string searchString)
         {
-            if (_context.Product == null)
-            {
-                _logger.LogError(new NullReferenceException(), "Product context is null");
-                return Problem("Entity set 'MvcMovieContext.Products' is null.");
-            }
 
-            var prod = from m in _context.Product
-                         select m;
+            IEnumerable<Product> all = await _products.GetAllAsync();
+            IEnumerable<Product> products = all;
+
 
             if (!string.IsNullOrEmpty(searchString))
             {
                 _logger.LogWarning("Search string provided: {SearchString}", searchString);
-                prod = prod.Where(s => s.Name!.ToUpper().Contains(searchString.ToUpper()));
+                products = products.Where(s => s.Name != null &&
+                                            s.Name!.ToUpper().Contains(searchString, StringComparison.OrdinalIgnoreCase));
             }
 
             var ProductSearchVM = new ProductSearchViewModel
             {
-                Products = await prod.ToListAsync()
+                Products = products.ToList(),
             };
 
             return View(ProductSearchVM);
         }
 
 
-
-
-
-
-                // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Products/Details/5
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                _logger.LogWarning("GET details: id was null");
-                return NotFound();
-            }
 
-            var product = await _context.Product
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                _logger.LogWarning("GET details: product not found");
+            var product = _products.GetByIdAsync(id);
 
-                return NotFound();
-            }
+            _logger.LogInformation("GET details for Id:{id}", id);
 
             return View(product);
         }
@@ -77,6 +54,8 @@ namespace Product_Controller.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+            _logger.LogInformation("Create get");
+
             return View();
         }
 
@@ -87,31 +66,27 @@ namespace Product_Controller.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Price")] Product product)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _logger.LogInformation("Added new product");
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _logger.LogWarning("Create POST: Invalid");
+                return View(product);
+
             }
-            return View(product);
+
+            _logger.LogInformation("Added new product");
+
+            await _products.AddAsync(product);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                _logger.LogWarning("GET edit: product id was null");
-                return NotFound();
-            }
 
-            var product = await _context.Product.FindAsync(id);
-            if (product == null)
-            {
-                _logger.LogWarning("GET edit: product was not found");
-                return NotFound();
-            }
+
+            var product = await _products.GetByIdAsync(id);
+            _logger.LogInformation("Edit GET: id:{id}", id);
+
             return View(product);
         }
 
@@ -122,55 +97,26 @@ namespace Product_Controller.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price")] Product product)
         {
-            if (id != product.Id)
+
+            if (!ModelState.IsValid)
             {
-                _logger.LogError("POST edit: Mismatched IDs");
-                return NotFound();
+                _logger.LogWarning("Create POST: Invalid");
+                return View(product);
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _logger.LogInformation("POST edit: Product was updated");
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.Id))
-                    {
-                        _logger.LogWarning("POST edit: Product not found");
-                        return NotFound();
-                    }
-                    else
-                    {
-                        _logger.LogError("POST edit: Concurrency error");
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(product);
+
+            await _products.UpdateAsync(product);
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                _logger.LogWarning("GET delete: Delete requested with null ID");
-                return NotFound();
-            }
 
-            var product = await _context.Product
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                _logger.LogWarning("GET delete: Delete requested but product not found for ID {Id}", id);
+            var product = await _products.GetByIdAsync(id);
+            _logger.LogInformation("Delete GET: id{id}", id);
 
-                return NotFound();
-            }
 
             return View(product);
         }
@@ -180,20 +126,9 @@ namespace Product_Controller.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Product.FindAsync(id);
-            if (product != null)
-            {
-                _logger.LogDebug("Deleting product with ID {Id}", id);
-                _context.Product.Remove(product);
-            }
-
-            await _context.SaveChangesAsync();
+            
+            await _products.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProductExists(int id)
-        {
-            return _context.Product.Any(e => e.Id == id);
         }
     }
 }
