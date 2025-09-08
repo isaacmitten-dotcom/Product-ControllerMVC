@@ -1,17 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Product_Controller.Data;
-using Product_Controller.Services;
-
+using Product_Controller.Features.Products.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<Product_ControllerContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Product_ControllerContext") ?? throw new InvalidOperationException("Connection string 'Product_ControllerContext' not found.")));
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().
+    AddRazorOptions(options => options.ViewLocationExpanders.Add(new Product_Controller.Infrastructure.FeatureViewLocationExpander()));
 
-builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<Product_Controller.Features.Products.Services.IProductService, Product_Controller.Features.Products.Services.ProductService>();
 
 var app = builder.Build();
 
@@ -24,16 +24,15 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
-app.MapStaticAssets();
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
 app.Run();

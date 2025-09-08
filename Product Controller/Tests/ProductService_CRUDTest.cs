@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Product_Controller.Data;
-using Product_Controller.Models;
-using Product_Controller.Services;
+using Product_Controller.Features.Products.Services;
+using Product_Controller.Features.Products.Models;
 using Xunit;
 
 

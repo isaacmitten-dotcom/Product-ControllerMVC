@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Product_Controller.Data;
-using Product_Controller.Models;
+using Product_Controller.Features.Products.Models;
 
-namespace Product_Controller.Services
+namespace Product_Controller.Features.Products.Services
 {
     public class ProductService : IProductService
     {

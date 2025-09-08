@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Product_Controller.Data;
+using Product_Controller.Features.Products.Models;
 using System;
 using System.Linq;
 

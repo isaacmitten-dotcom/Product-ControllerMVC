@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Product_Controller.Models;
+using Product_Controller.Features.Products.Models;
 
 namespace Product_Controller.Data
 {
@@ -14,6 +14,6 @@ namespace Product_Controller.Data
         {
         }
 
-        public DbSet<Product_Controller.Models.Product> Product { get; set; } = default!;
+        public DbSet<Product> Product { get; set; } = default!;
     }
 }

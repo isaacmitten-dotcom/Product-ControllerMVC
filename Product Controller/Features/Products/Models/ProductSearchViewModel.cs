@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
-namespace Product_Controller.Models
+namespace Product_Controller.Features.Products.Models
 {
     public class ProductSearchViewModel
     {

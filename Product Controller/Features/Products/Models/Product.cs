@@ -1,4 +1,4 @@
-﻿namespace Product_Controller.Models
+﻿namespace Product_Controller.Features.Products.Models
 {
     public class Product
     {

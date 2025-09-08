@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Product_Controller.Features.Products.Models;
 
-using Product_Controller.Models;
-
-namespace Product_Controller.Services
+namespace Product_Controller.Features.Products.Services
 {
     public interface IProductService
     {
