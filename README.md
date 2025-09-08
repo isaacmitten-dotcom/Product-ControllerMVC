@@ -51,13 +51,13 @@ Everything pertaining to products is in /products
   `GET /products/details/5`
 
 - **Create a new product**:  
-  `GET /products/create` (Then submit a `POST` request)
+  `GET /products/create` 
 
 - **Edit product (ID 5)**:  
-  `GET /products/edit/5` (Then submit a `POST` request)
+  `GET /products/edit/5` 
 
 - **Delete product (ID 5)**:  
-  `GET /products/delete/5` (Then submit a `POST` request)
+  `GET /products/delete/5` 
 
 - **Filter products priced at 1.00**:  
   `GET /products/byprice/1.00`
