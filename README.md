@@ -45,22 +45,22 @@ Everything pertaining to products is in /products
 ## Example Usage
 
 - **Get all products**:  
-  `GET /products`
+  `/products`
   
 - **View product details (ID 5)**:  
-  `GET /products/details/5`
+  `/products/details/5`
 
 - **Create a new product**:  
-  `GET /products/create` 
+  `/products/create` 
 
 - **Edit product (ID 5)**:  
-  `GET /products/edit/5` 
+  `/products/edit/5` 
 
 - **Delete product (ID 5)**:  
-  `GET /products/delete/5` 
+  `/products/delete/5` 
 
 - **Filter products priced at 1.00**:  
-  `GET /products/byprice/1.00`
+  `/products/byprice/1.00`
 
   
 
