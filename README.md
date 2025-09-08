@@ -38,6 +38,32 @@ into Visual Studio
 
 I chose to separate the CRUD logic out from the controllers and into the ProductService. This is to better facilitate separation of concerns, as it allows the controller to only handle HTTP requests. This makes the code more maintainable.
 
+# Path Routing
+
+Everything pertaining to products is in /products
+
+## Example Usage
+
+- **Get all products**:  
+  `GET /products`
+  
+- **View product details (ID 5)**:  
+  `GET /products/details/5`
+
+- **Create a new product**:  
+  `GET /products/create` (Then submit a `POST` request)
+
+- **Edit product (ID 5)**:  
+  `GET /products/edit/5` (Then submit a `POST` request)
+
+- **Delete product (ID 5)**:  
+  `GET /products/delete/5` (Then submit a `POST` request)
+
+- **Filter products priced at 1.00**:  
+  `GET /products/byprice/1.00`
+
+  
+
 
 
 
